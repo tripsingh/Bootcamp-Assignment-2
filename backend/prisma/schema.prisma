@@ -7,4 +7,16 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// Add your Prisma models here when ready
+model Registration {
+  id               Int      @id @default(autoincrement())
+  aadhaar          String   @unique
+  entrepreneurName String?
+  otp              String?
+  otpExpiresAt     DateTime?
+  otpVerified      Boolean  @default(false)
+  pan              String?
+  panType          String?
+  panVerified      Boolean  @default(false)
+  submittedAt      DateTime?
+  createdAt        DateTime @default(now())
+}
