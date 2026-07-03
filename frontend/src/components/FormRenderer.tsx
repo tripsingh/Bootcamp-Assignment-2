@@ -13,11 +13,11 @@ function findLabel(labels: StepSchema['labels'], id?: string | null) {
   return found ? found.text : undefined
 }
 
-export default function FormRenderer({ schema, onButton }: { schema: StepSchema; onButton?: (btnId?: string | null) => void }) {
+export default function FormRenderer({ schema, register, errors, onButton }: { schema: StepSchema; register?: any; errors?: any; onButton?: (btnId?: string | null) => void }) {
   return (
-    <form className="space-y-4">
+    <div className="space-y-4">
       {schema.inputs.map((inp) => (
-        <Field key={inp.id || inp.name || Math.random()} def={inp} label={findLabel(schema.labels, inp.id)} />
+        <Field key={inp.id || inp.name || Math.random()} def={inp} label={findLabel(schema.labels, inp.id)} register={register} error={errors && errors[inp.name || inp.id]} />
       ))}
 
       <div className="flex items-center gap-3 mt-2">
@@ -25,6 +25,6 @@ export default function FormRenderer({ schema, onButton }: { schema: StepSchema;
           <button key={btn.id || btn.text} type={btn.type === 'submit' ? 'submit' : 'button'} id={btn.id || undefined} onClick={() => onButton && onButton(btn.id)} className="px-4 py-2 bg-blue-600 text-white rounded">{btn.text}</button>
         ))}
       </div>
-    </form>
+    </div>
   )
 }

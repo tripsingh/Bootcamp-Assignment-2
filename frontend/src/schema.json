@@ -32,7 +32,7 @@
         "text": "Validate & Generate OTP",
         "id": "validateAadhaar",
         "name": "validateAadhaar",
-        "type": "button"
+        "type": "submit"
       }
     ]
   },
@@ -91,7 +91,7 @@
         "text": "Validate PAN",
         "id": "validatePan",
         "name": "validatePan",
-        "type": "button"
+        "type": "submit"
       }
     ]
   }
