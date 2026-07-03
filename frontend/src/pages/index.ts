@@ -1,0 +1,2 @@
+// frontend pages entry
+export {}

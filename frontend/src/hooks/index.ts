@@ -1,0 +1,2 @@
+// frontend hooks entry
+export {}

@@ -1,0 +1,2 @@
+// frontend types entry
+export {}
