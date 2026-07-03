@@ -1,0 +1,98 @@
+{
+  "step1": {
+    "labels": [
+      {
+        "text": "Aadhaar Number",
+        "htmlFor": "aadhaar"
+      },
+      {
+        "text": "Entrepreneur Name",
+        "htmlFor": "entrepreneurName"
+      }
+    ],
+    "inputs": [
+      {
+        "tag": "input",
+        "id": "aadhaar",
+        "name": "aadhaar",
+        "placeholder": "Enter Aadhaar Number",
+        "type": "text"
+      },
+      {
+        "tag": "input",
+        "id": "entrepreneurName",
+        "name": "entrepreneurName",
+        "placeholder": "Enter Name as on Aadhaar",
+        "type": "text"
+      }
+    ],
+    "buttons": [
+      {
+        "tag": "button",
+        "text": "Validate & Generate OTP",
+        "id": "validateAadhaar",
+        "name": "validateAadhaar",
+        "type": "button"
+      }
+    ]
+  },
+  "step2": {
+    "labels": [
+      {
+        "text": "OTP",
+        "htmlFor": "otp"
+      },
+      {
+        "text": "PAN Number",
+        "htmlFor": "pan"
+      },
+      {
+        "text": "PAN Type",
+        "htmlFor": "panType"
+      },
+      {
+        "text": "Declaration",
+        "htmlFor": "declaration"
+      }
+    ],
+    "inputs": [
+      {
+        "tag": "input",
+        "id": "otp",
+        "name": "otp",
+        "placeholder": "Enter OTP",
+        "type": "text"
+      },
+      {
+        "tag": "input",
+        "id": "pan",
+        "name": "pan",
+        "placeholder": "Enter PAN Number",
+        "type": "text"
+      },
+      {
+        "tag": "select",
+        "id": "panType",
+        "name": "panType",
+        "placeholder": null,
+        "type": "select"
+      },
+      {
+        "tag": "input",
+        "id": "declaration",
+        "name": "declaration",
+        "placeholder": null,
+        "type": "checkbox"
+      }
+    ],
+    "buttons": [
+      {
+        "tag": "button",
+        "text": "Validate PAN",
+        "id": "validatePan",
+        "name": "validatePan",
+        "type": "button"
+      }
+    ]
+  }
+}
