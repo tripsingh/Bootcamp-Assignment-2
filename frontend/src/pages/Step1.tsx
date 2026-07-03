@@ -4,10 +4,15 @@ import schema from '../schema.json'
 import FormRenderer from '../components/FormRenderer'
 import { useForm } from 'react-hook-form'
 import { step1Schema, Step1Input } from '../schemas/registration'
+import useAsync from '../hooks/useAsync'
+import { validateAadhaar } from '../lib/api'
+import Notification from '../components/Notification'
 
 export default function Step1() {
   const navigate = useNavigate()
   const { register, handleSubmit, setError, formState: { errors } } = useForm<Step1Input>({ mode: 'onSubmit' })
+  const { loading, error, run } = useAsync()
+  const [success, setSuccess] = React.useState<string | null>(null)
 
   const onSubmit = (data: any) => {
     const parsed = step1Schema.safeParse(data)
@@ -18,8 +23,13 @@ export default function Step1() {
       })
       return
     }
-    // success
-    navigate('/step2')
+    // call backend to generate OTP
+    run(() => validateAadhaar({ aadhaar: parsed.data.aadhaar, entrepreneurName: parsed.data.entrepreneurName }))
+      .then(() => {
+        setSuccess('OTP generated and sent (simulated). Proceed to Step 2.')
+        navigate('/step2')
+      })
+      .catch(() => {})
   }
 
   return (
@@ -29,6 +39,12 @@ export default function Step1() {
 
       <form onSubmit={handleSubmit(onSubmit)} className="mt-4">
         <FormRenderer schema={(schema as any).step1} register={register} errors={errors} />
+        <div className="mt-3">
+          <button disabled={loading} type="submit" className="px-4 py-2 bg-blue-600 text-white rounded">
+            {loading ? 'Sending...' : 'Generate OTP'}
+          </button>
+        </div>
+        <Notification error={error} success={success} />
       </form>
     </section>
   )

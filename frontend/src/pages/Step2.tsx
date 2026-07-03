@@ -4,9 +4,14 @@ import schema from '../schema.json'
 import FormRenderer from '../components/FormRenderer'
 import { useForm } from 'react-hook-form'
 import { step2Schema, Step2Input } from '../schemas/registration'
+import useAsync from '../hooks/useAsync'
+import { verifyOtp, validatePan, submitRegistration } from '../lib/api'
+import Notification from '../components/Notification'
 
 export default function Step2() {
   const { register, handleSubmit, setError, formState: { errors } } = useForm<Step2Input>({ mode: 'onSubmit' })
+  const { loading, error, run } = useAsync()
+  const [success, setSuccess] = React.useState<string | null>(null)
 
   const onSubmit = (data: any) => {
     const parsed = step2Schema.safeParse({
@@ -21,7 +26,14 @@ export default function Step2() {
       })
       return
     }
-    console.log('Step2 valid', parsed.data)
+    // Sequence: verify OTP -> validate PAN -> submit registration
+    run(() => verifyOtp({ aadhaar: parsed.data.aadhaar as string, otp: parsed.data.otp }))
+      .then(() => run(() => validatePan({ aadhaar: parsed.data.aadhaar as string, pan: parsed.data.pan as string, panType: parsed.data.panType })))
+      .then(() => run(() => submitRegistration({ aadhaar: parsed.data.aadhaar as string })))
+      .then(() => {
+        setSuccess('Registration submitted successfully')
+      })
+      .catch(() => {})
   }
 
   return (
@@ -35,6 +47,12 @@ export default function Step2() {
 
       <form onSubmit={handleSubmit(onSubmit)} className="mt-4">
         <FormRenderer schema={(schema as any).step2} register={register} errors={errors} />
+        <div className="mt-3">
+          <button disabled={loading} type="submit" className="px-4 py-2 bg-blue-600 text-white rounded">
+            {loading ? 'Processing...' : 'Submit Registration'}
+          </button>
+        </div>
+        <Notification error={error} success={success} />
       </form>
     </section>
   )
